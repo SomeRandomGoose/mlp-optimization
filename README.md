@@ -5,12 +5,14 @@ Please do not read the notebook inside GitHub, some of these outputs were very v
 
 
 ## Project Overview
-This project explores advanced **hyperparameter optimization** techniques applied to a **Multi-Layer Perceptron (MLP) classifier**. The primary objective is to determine the most effective method for optimizing an MLP's performance while balancing:
+This project explores advanced **hyperparameter optimization** techniques applied to a **Multi-Layer Perceptron (MLP) classifier**. The primary objective is to determine the most effective method for optimizing an MLP's classification performance based on its F1 Score.
 
-- **F1-score** (classification quality)
-- **Overfitting mitigation**
-- **Computational efficiency**
+The optimized hyperparameters are the following:
+- **Number of neurons** in the hidden layer.
+- **Learning rate (`learning_rate_init`)**.
+- **Regularization parameter (`alpha`)**.
 
+  
 We evaluate and compare three different optimization strategies:
 
 1. **Genetic Algorithm (GA)**
@@ -23,8 +25,6 @@ Additionally, **Multi-Objective Optimization (MOO)** was explored using:
 
 ## Contents
 - `Optimization_Test_mlp.ipynb`: Jupyter Notebook containing the entire experiment.
-- `results/`: Directory containing optimization results and logs.
-- `plots/`: Visualizations of optimization performance.
 
 
 
@@ -38,15 +38,12 @@ Additionally, **Multi-Objective Optimization (MOO)** was explored using:
 ### Optimization Techniques
 #### 1. Genetic Algorithm (GA)
 - Uses `DEAP` for evolutionary hyperparameter tuning.
-- Optimizes:
-  - **Number of neurons** in the hidden layer.
-  - **Learning rate (`learning_rate_init`)**.
-  - **Regularization parameter (`alpha`)**.
 - Implements **early stopping** for efficiency.
 - Uses **tournament selection**, **blend crossover**, and **mutation**.
+- Its hyperparameters were optimized using **OPTUNA**, which was very computationally intensive, as one might expect.
 - Runs for **multiple generations**, evolving towards better models.
 
-#### 2. Bayesian Optimization (Optuna)
+#### 2. Bayesian Optimization
 - Uses **Gaussian Process Regression** for intelligent sampling.
 - Evaluates fewer hyperparameter configurations but **focuses on promising areas**.
 - Applies **cross-validation (5-fold)** to prevent overfitting.
@@ -67,23 +64,28 @@ Additionally, **Multi-Objective Optimization (MOO)** was explored using:
 
 
 ## Results & Insights
+Do note that all algorithms attained very similar results on test data, with differences within a 0.02 range in test F1 scores. However, overfitting levels varied, with TPOT having the highest train-test gap (0.5).
+
 ### Bayesian Optimization Performed Best Overall
 - **Higher sample efficiency** → Needed fewer function evaluations.
 - **Minimal overfitting** compared to GA and TPOT.
 - **Achieved a balanced performance without excessive training time.**
+- Train F1 = 0.83, Test F1 = 0.81 (0.2 difference between train and test)
 
 ### TPOT Achieved the Best F1-score (0.82), but Overfitted More
 - **Strong generalization**, but **risk of local optima** due to GA's broad exploration.
 - **Less efficient than BO** in lower-dimensional hyperparameter search.
+- Train F1 = 0.86, Test F1 = 0.81 (0.5 difference between train and test)
 
 ### Genetic Algorithm Performed the Worst
-- **Required more generations** and had **higher computational cost**.
+- Had a **higher computational cost**, especially since it also needed tuning.
 - **Did not generalize as well** as BO or TPOT.
 - **Better suited for larger search spaces (e.g., optimizing multiple layers).**
+- Train F1 = 0.82, Test F1 = 0.79 (0.3 difference between train and test)
 
 ### Key Takeaway: Use GA for High-Dimensional Search Spaces
-- If optimizing **number of layers AND neurons per layer**, GA scales better than BO.
-- In simple hyperparameter tuning, **BO is the best choice**.
+- If optimizing in a highly dimensional space (i.e. **number of layers AND neurons per layer**), GA scales better than BO.
+- In simple hyperparameter tuning, **BO tends to be the better choice**. If the model is lighter than an MLP with one hidden layer, a GA might be a possibility but at this point...Grid search should do the job.
 - **Hybrid Approaches (GA+BO)** might be ideal for large-scale optimizations.
 
 
@@ -100,13 +102,13 @@ Additionally, **Multi-Objective Optimization (MOO)** was explored using:
    jupyter notebook Optimization_Test_mlp.ipynb
    ```
    
-3. Install dependencies directly from the notebook by running the appropriate cells.
+3. Run everything in order and wait for a while. The OPTUNA + GA step alone took me over three hours of waiting. The rest was actually relatively fast.
 
  
 
 ## Future Work & Improvements
 - **Test GA on architecture search** (e.g., optimizing both neurons per layer & number of layers).
-- **Experiment with Hybrid GA-BO approaches**.
+- **Experiment with Evolutionary Strategies Algorithm (ES)**.
 - **Implement Neural Architecture Search (NAS) for full MLP architecture optimization.**
 
 This project highlights the strengths and trade-offs of different hyperparameter optimization techniques. Depending on the complexity of the search space, different approaches should be chosen accordingly.
