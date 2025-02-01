@@ -131,8 +131,8 @@ This project highlights the strengths and trade-offs of different hyperparameter
  
 
 ## Credits & Acknowledgments
-This project was conducted as a **personal research initiative** exploring hyperparameter optimization strategies. All code was written and tested independently for learning and benchmarking purposes.
+This project was conducted as a **personal research initiative** by myself alone. The idea was to explore different hyperparameter optimization strategies. All code was written and tested independently for learning purposes and fun.
 
-**Contact:** If you have questions or suggestions, feel free to clone this and have fun!
+If you have questions or suggestions, feel free to clone this and have fun!
 
 
