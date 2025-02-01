@@ -5,12 +5,12 @@ Please do not read the notebook inside GitHub, some of these outputs were very v
 
 
 ## Project Overview
-This project explores advanced **hyperparameter optimization** techniques applied to a **Multi-Layer Perceptron (MLP) classifier**. The primary objective is to determine the most effective method for optimizing an MLP's classification performance based on its F1 Score.
+This project explores advanced **hyperparameter optimization** techniques applied to a **Multi-Layer Perceptron (MLP) classifier**. The primary objective is to determine the most effective method for optimizing an MLP's classification performance based on its F1 Score only. The second part tries to balance F1 score and training time.
 
 The optimized hyperparameters are the following:
 - **Number of neurons** in the hidden layer.
-- **Learning rate (`learning_rate_init`)**.
-- **Regularization parameter (`alpha`)**.
+- **Initial Learning rate (`learning_rate_init`)**.
+- **Regularization (`alpha`)**.
 
   
 We evaluate and compare three different optimization strategies:
@@ -66,6 +66,17 @@ Additionally, **Multi-Objective Optimization (MOO)** was explored using:
 ## Results & Insights
 Do note that all algorithms attained very similar results on test data, with differences within a 0.02 range in test F1 scores. However, overfitting levels varied, with TPOT having the highest train-test gap (0.5).
 
+A model with :
+fixed_neurons = 1
+fixed_alpha = 0.1
+fixed_learning_rate = 0.1
+
+Performed with the following results:
+Train F1-Score: 0.7035376183358246
+Test F1-Score: 0.7058823529411765
+
+Keep this in mind when observing the following results.
+
 ### Bayesian Optimization Performed Best Overall
 - **Higher sample efficiency** → Needed fewer function evaluations.
 - **Minimal overfitting** compared to GA and TPOT.
@@ -89,6 +100,10 @@ Do note that all algorithms attained very similar results on test data, with dif
 - **Hybrid Approaches (GA+BO)** might be ideal for large-scale optimizations.
 
 
+### MOO : NSGA-II vs SMPSO
+An image is often worth a thousand words...
+![image](https://github.com/user-attachments/assets/f61a793c-7a53-4bb2-8f47-fe39c8482c8e)
+The NSGA-II provided better-faring results in practice, but with a lower diversity than the SMPSO. If the NSGA-II didn't somehow provide an exceptionally intriguing solution (F1 = ~0.81 and training time = ~0.1 seconds), SMPSO would seem to be more useful. Both seem to have their merits. One could analyze and experiment with this further.
 
 ## How to Run the Code
 ### Setup Environment
