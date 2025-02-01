@@ -135,4 +135,4 @@ This project was conducted as a **personal research initiative** by myself alone
 
 If you have questions or suggestions, feel free to clone this and have fun!
 
-
+Link to the notebook on Colab, so you don't have to download it to read it comfortably: [https://colab.research.google.com/drive/16L58YZ3M3PBW3qijvXwfHLw8LBFu3G5B?usp=sharing]
